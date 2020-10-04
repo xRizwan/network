@@ -1,0 +1,33 @@
+.post-creation{
+    padding: 20px;
+}
+.posts-container{
+    padding: 20px;
+}
+.sp-container{
+    border: 1px solid rgb(204, 147, 157);
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.material-icons{
+    color: rgb(248, 117, 139);
+    cursor: pointer;
+}
+.secondary-text{
+    color: grey;
+}
+.centered{
+    text-align: center;
+}
+.username{
+    font-size: 30px;
+}
+.username-link{
+    color: black;
+}
+.margincenter{
+    margin: 0 auto;
+}
+.link-color{
+    color: white !important;
+}

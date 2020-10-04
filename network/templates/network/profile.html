@@ -1,0 +1,77 @@
+{% extends 'network/layout.html' %}
+
+{% block title %}
+    {{userData.username}} Profile
+{% endblock %}
+
+{% block body %}
+    <div>
+        <div class="centered username">{{userData.username}}</div>
+        <div class="centered">
+            <div class="badge badge-info following">{{followingLength}} Following</div>
+            <div class="badge badge-info followers">{{followersLength}} Followers</div>
+            {% if user.is_authenticated %}
+                {% if userData.username != user.username %}
+                    <br/>
+                    <br/>
+                    {% if isFollowed %}
+                        <div class="btn btn-primary followbtn" data-followers="{{followersLength}}" id="{{userData.username}}">UnFollow</div>
+                    {% else %}
+                        <div class="btn btn-primary followbtn" data-followers="{{followersLength}}" id="{{userData.username}}" >Follow</div>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+
+    <div class="posts-container">
+        {% for post in posts %}
+            <div class="sp-container">
+                <div>
+                    <a href="{% url 'userprofile' post.by.username %}" class="username-link">
+                        <b>{{post.by}}</b></div>
+                    </a>
+                <br/>
+                {% if post.by == user %}
+                    <button class="btn btn-outline-primary edit-btn" id="{{post.id}}">Edit</button>
+                {% endif %}
+                <div class="message-container" id="message{{post.id}}" data-get="{{post.id}}" data-message="{{post.message}}">
+                    {{post.message}}
+                </div>
+                <div class="secondary-text">{{post.timestamp}}</div>
+                <div>
+                    <i class="material-icons like-btn" data-post="{{post.id}}">favorite</i>
+                    <span id="{{post.id}}-likes">{{post.likes.count}}</span>
+                </div>
+                <div class="secondary-text">Comment</div>
+            </div>
+        {% empty %}
+            <div>
+                <h3 class="centered">User has no Posts!</h3>
+            </div>
+        {% endfor %}
+    </div>
+
+    <nav>
+        <ul class="pagination">
+            {% if posts.has_previous %}
+                <button class="btn btn-primary margincenter">
+                    <a href="?page={{posts.previous_page_number}}" class="link-color">Previous</a>
+                </button>
+            {% endif %}
+            {% if posts.has_next %}
+                <button class="btn btn-primary margincenter">
+                    <a href="?page={{posts.next_page_number}}" class="link-color">Next</a>
+                </button>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <div class="centered">
+        Page {{posts.number}} of {{posts.paginator.num_pages}}.
+    </div>
+
+
+
+{% endblock %}

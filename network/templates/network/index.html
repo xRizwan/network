@@ -1,0 +1,48 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+
+    <div class="posts-container">
+        {% for post in data %}
+            <div class="sp-container">
+                <a href="{% url 'userprofile' post.by.username %}" class="username-link">
+                    <b>{{post.by}}</b>
+                </a>
+                <br/>
+                {% if post.by == loggedUser %}
+                <button class="btn btn-outline-primary edit-btn" id="{{post.id}}">Edit</button>
+                {% endif %}
+                <div class="message-container" id="message{{post.id}}" data-get="{{post.id}}" data-message="{{post.message}}">
+                    {{post.message}}
+                </div>
+                <div class="secondary-text">{{post.timestamp}}</div>
+                <div>
+                    <i class="material-icons like-btn" data-post="{{post.id}}" >favorite</i>
+                    <span id="{{post.id}}likes" class="like-counter">{{post.likes.count}}</span>
+                </div>
+                <div class="secondary-text">Comment</div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <nav class="centered">
+        <ul class="pagination margincenter">
+            {% if data.has_previous %}
+                <li class="page-item margincenter">
+                    <a href="?page={{data.previous_page_number}}" class="page-link">Previous</a>
+                </li>
+            {% endif %}
+
+            {% if data.has_next %}
+            <li class="page-item margincenter">
+                <a href="?page={{data.next_page_number}}" class="page-link">Next</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    <br/>
+    <div class="centered">
+        Page {{data.number}} of {{data.paginator.num_pages}}.
+    </div>
+
+{% endblock %}
